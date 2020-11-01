@@ -19,6 +19,7 @@ module "routing" {
 
 module "content_delivery_network" {
   source = "../shared/modules/content_delivery_network"
+  service_name = var.service_name
   cost_allocation_tags = var.cost_allocation_tags
 }
 
