@@ -23,6 +23,12 @@ module "content_delivery_network" {
   cost_allocation_tags = var.cost_allocation_tags
 }
 
+module "db" {
+  source = "../shared/modules/db"
+  service_name = var.service_name
+  cost_allocation_tags = var.cost_allocation_tags
+}
+
 module "service" {
   source = "../shared/modules/service"
   service_name = var.service_name
