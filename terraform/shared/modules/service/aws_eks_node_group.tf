@@ -4,13 +4,13 @@ resource "aws_eks_node_group" "cluster-node-group" {
   node_role_arn = aws_iam_role.eks-cluster-node-role.arn
   subnet_ids = var.subnet_ids
 
-  instance_types = ["t3.small"]
+  instance_types = ["m5.large"]
   disk_size = 20
 
   scaling_config {
-    desired_size = 1
-    max_size = 1
-    min_size = 1
+    desired_size = 2
+    max_size = 3
+    min_size = 2
   }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.

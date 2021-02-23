@@ -4,7 +4,7 @@ resource "aws_route53_zone" "public" {
   comment = "${var.service_name} のインターネット経由通信の名前解決用ホストゾーン"
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 
   tags = var.cost_allocation_tags
@@ -14,6 +14,11 @@ resource "aws_route53_zone" "public" {
 # 1. ドメインに対して証明書を準備
 resource "aws_acm_certificate" "app" {
   domain_name = var.domain_name
+  validation_method = "DNS"
+}
+
+resource "aws_acm_certificate" "wild" {
+  domain_name = "*.${var.domain_name}"
   validation_method = "DNS"
 }
 
@@ -42,14 +47,26 @@ resource "aws_acm_certificate_validation" "app_cert" {
 }
 
 # ALB への Alias レコードを作成
-resource "aws_route53_record" "alb" {
-  name = aws_route53_zone.public.name
+resource "aws_route53_record" "alb_line" {
+  name = "line.${aws_route53_zone.public.name}"
   zone_id = aws_route53_zone.public.zone_id
   type = "A"
 
   alias {
     name = aws_alb.public.dns_name
     zone_id = aws_alb.public.zone_id
+    evaluate_target_health = true
+  }
+}
+
+resource "aws_route53_record" "alb_publish" {
+  name = "publish.${aws_route53_zone.public.name}"
+  zone_id = aws_route53_zone.public.zone_id
+  type = "A"
+
+  alias {
+    name = aws_alb.publish.dns_name
+    zone_id = aws_alb.publish.zone_id
     evaluate_target_health = true
   }
 }

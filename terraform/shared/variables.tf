@@ -22,7 +22,12 @@ variable "eks_tags_for_node_group" {
   description = "eks node group に割り当てるサブネットの tag に付ける必要がある値"
 }
 
-variable "k8s_node_port" {
+variable "k8s_node_port_collector" {
+  type = number
+  description = "EKS の kubernetes cluster で作成する NodePort Service で利用するポート番号. ALBから eks クラスターへのアクセスをこのポートへフォワードする"
+}
+
+variable "k8s_node_port_publisher" {
   type = number
   description = "EKS の kubernetes cluster で作成する NodePort Service で利用するポート番号. ALBから eks クラスターへのアクセスをこのポートへフォワードする"
 }

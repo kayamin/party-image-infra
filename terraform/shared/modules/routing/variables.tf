@@ -16,7 +16,12 @@ variable "public_subnet_ids" {
   type = list(string)
 }
 
-variable "k8s_node_port" {
+variable "k8s_node_port_collector" {
+  type = number
+  description = "EKS の kubernetes cluster で作成する NodePort Service で利用するポート番号. ALBから eks クラスターへのアクセスをこのポートへフォワードする"
+}
+
+variable "k8s_node_port_publisher" {
   type = number
   description = "EKS の kubernetes cluster で作成する NodePort Service で利用するポート番号. ALBから eks クラスターへのアクセスをこのポートへフォワードする"
 }
